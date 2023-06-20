@@ -14,7 +14,7 @@ relog = pygame.time.Clock()
 fondo = pygame.image.load("location\game_background_1.png")
 fondo = pygame.transform.scale(fondo, (ANCHO, ALTO))
 musica = pygame.mixer.music.load('sounds\intro_dbz.mp3')
-jugador = Personaje(0, 0, 5, 8, 5, -15)
+jugador = Personaje(0, 0, 5, 8, 10, -30)
 
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.5)
@@ -25,21 +25,31 @@ while(True):
             pygame.quit()
             sys.exit()
 
-        if evento.type == pygame.KEYDOWN:
-            if evento.key == pygame.K_RIGHT:
+        teclas = pygame.key.get_pressed()
+
+        # if teclas[pygame.K_RIGHT]:
+        #     jugador.control("caminar_r")
+        # elif teclas[pygame.K_LEFT]:
+        #     jugador.control("caminar_l")
+        # elif teclas[pygame.K_SPACE]:
+        #     jugador.control("saltar_r")
+        # else:
+        #     jugador.control("quieto")
+
+        if teclas[pygame.K_RIGHT]:
+            if teclas[pygame.K_SPACE]:
+                jugador.control("saltar")
+            else:
                 jugador.control("caminar_r")
-            if evento.key == pygame.K_LEFT :
+        elif teclas[pygame.K_LEFT]:
+            if teclas[pygame.K_SPACE]:
+                jugador.control("saltar")
+            else:
                 jugador.control("caminar_l")
-            if evento.key == pygame.K_SPACE:
-                jugador.control("saltar_r")
-            if evento.key == pygame.K_SPACE:
-                jugador.control("saltar_l")
-        elif evento.type == pygame.KEYUP:
-            if evento.key == pygame.K_RIGHT:
-                jugador.control("quieto_r")
-            if evento.key == pygame.K_LEFT:
-                jugador.control("quieto_l")
-              
+        elif teclas[pygame.K_SPACE]:
+            jugador.control("saltar")
+        else:
+            jugador.control("quieto")
 
     jugador.update_personaje()
     jugador.draw_personaje(screen)
