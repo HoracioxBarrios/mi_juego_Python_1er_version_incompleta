@@ -29,7 +29,7 @@ while (True):
 
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
-            pygame.quit()
+            pygame.quit() 
             sys.exit()
         elif evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_x:
