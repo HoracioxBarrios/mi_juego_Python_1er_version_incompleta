@@ -56,7 +56,7 @@ while (True):
     jugador.draw_personaje(screen, piso)
 
     if get_modo():
-        pygame.draw.rect(screen, color_blue, piso.rectangulo_principal, 3)
+        # pygame.draw.rect(screen, color_blue, piso.rectangulo_principal, 3)
         pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_arriba"], 3)
         pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_abajo"], 3)
         pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_izquierda"], 3)
@@ -66,7 +66,7 @@ while (True):
         pygame.draw.rect(screen, color_rojo, jugador.colisiones_rectangulo_princial["lado_abajo"], 3)
         pygame.draw.rect(screen, color_rojo, jugador.colisiones_rectangulo_princial["lado_izquierda"], 3)
         pygame.draw.rect(screen, color_rojo, jugador.colisiones_rectangulo_princial["lado_derecha"], 3)
-        pygame.draw.rect(screen, color_green, jugador.rectangulo_principal, 3)
+        # pygame.draw.rect(screen, color_green, jugador.rectangulo_principal, 3)
 
     pygame.display.flip()
     screen.blit(fondo, fondo.get_rect())

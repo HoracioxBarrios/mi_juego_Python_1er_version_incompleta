@@ -1,6 +1,8 @@
 import pygame
 from utilidades import *
 from piso import *
+import time
+
 class Personaje:
     def __init__(self, x, y, speed_caminar, speed_correr, gravedad, potencia_salto) -> None:
         self.caminar_r = get_surface_form_sprite_sheet("sprites\goku2.png", 9, 6, 0, 6, 8,False)
@@ -19,7 +21,7 @@ class Personaje:
         self.limite_velocidad_caida = 15
         self.potencia_salto = potencia_salto
         self.gravedad = gravedad
-
+        
 
         self.jugador_quieto_derecha = True
         self.jugador_quieto_izquierda = False
@@ -27,9 +29,12 @@ class Personaje:
         self.jugador_corriendo_izquierda = False
         self.speed_caminar = speed_caminar
         self.speed_correr = speed_correr
+        ##############################
+        self.times = [20,2,2]
         self.en_aire = True
-
-
+        self.index = 0
+        self.cont = self.times[self.index] 
+        self.lenTimes = len(self.times)    
         #Creacion inicial del rectangulo con superficie
         self.animacion = self.quieto_r
         self.imagen = self.animacion[self.frame]
@@ -41,10 +46,7 @@ class Personaje:
         
     def update_personaje(self, piso: Piso):
 
-        if(self.frame < len(self.animacion) -1):
-            self.frame += 1
-        else:
-            self.frame = 0
+
             # self.desplazamiento_y = 0
             # self.en_aire = False
             
@@ -81,8 +83,6 @@ class Personaje:
         #     self.desplazamiento_y += self.gravedad
         self.aplicar_gravedad(piso)
             
-
-  
     def control(self, accion):
         #Caminar R
         if accion == "caminar_r" and self.en_aire == False:
@@ -146,10 +146,28 @@ class Personaje:
         self.jugador_quieto_izquierda = self.jugador_corriendo_izquierda
 
     def draw_personaje(self, screen, piso: Piso):
-        self.imagen = self.animacion[self.frame]
+        
+        self.animacion_controller()
+
         screen.blit(self.imagen, self.rectangulo_principal)
         screen.blit(piso.imagen, piso.rectangulo_principal)
-
+   
+    def animacion_controller(self):
+        if(self.cont == 0):
+            if(self.frame < len(self.animacion) -1):
+                self.frame += 1
+                self.imagen = self.animacion[self.frame]
+                if(self.index < self.lenTimes -1):
+                    self.index += 1
+                    self.cont = self.times[self.index]
+                else:
+                    self.index = 0 
+            else:
+                self.frame = 0
+        else:
+            print(self.cont)
+            print(self.index)
+            self.cont -= 1
     def aplicar_gravedad(self, piso: Piso):
         if self.en_aire:
             self.rectangulo_principal.y += self.desplazamiento_y
@@ -163,7 +181,7 @@ class Personaje:
         if self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
             self.desplazamiento_y = 0
             self.en_aire = False
-            self.rectangulo_principal.bottom = piso.rectangulo_principal.top
+            self.colisiones_rectangulo_princial["lado_abajo"].y = piso.colisiones_rectangulo_princial["lado_arriba"].y
         
 
 
