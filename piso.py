@@ -13,4 +13,3 @@ class Piso:
         self.rectangulo_principal.x = x
         self.rectangulo_principal.y = y
         self.colisiones_rectangulo_princial = obtener_rectangulos_colision(self.rectangulo_principal)
-        print('self.colisiones_rectangulo_princial:::',self.colisiones_rectangulo_princial)

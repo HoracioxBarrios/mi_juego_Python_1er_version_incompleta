@@ -1,5 +1,5 @@
 import pygame
-
+import asyncio
 def get_surface_form_sprite_sheet(path, columnas, filas, cortar_en_fila : int, cortar_columna_desde = 0, cortar_columna_hasta = 0, flip= False):
     lista = []
     superficie_imagen = pygame.image.load(path)
@@ -33,3 +33,7 @@ def obtener_ractangulo_principal(superficies, frame):
     imagen = animaciones[frame]
     rectangulo_principal = imagen.get_rect()
     return rectangulo_principal 
+
+async def animationControler(times: list[int], frame: int):
+    for time in times:
+        asyncio.sleep(time)
