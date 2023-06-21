@@ -1,8 +1,0 @@
-ANCHO = 1500
-ALTO = 800
-
-FPS = 30
-
-
-
-VELOCIDAD_MOV = 5

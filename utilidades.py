@@ -19,3 +19,17 @@ def get_surface_form_sprite_sheet(path, columnas, filas, cortar_en_fila : int, c
     
     return lista
 
+def obtener_rectangulos_colision(rectangulo_principal: pygame.Rect):
+    dicc_rectangulos_lados= {}
+    dicc_rectangulos_lados["lado_abajo"]: dict[pygame.Rect] = pygame.Rect(rectangulo_principal.left, rectangulo_principal.bottom -10, rectangulo_principal.width, 10)
+    dicc_rectangulos_lados["lado_derecha"]: dict[pygame.Rect] = pygame.Rect(rectangulo_principal.right -2, rectangulo_principal.top,  2, rectangulo_principal.height)
+    dicc_rectangulos_lados["lado_izquierda"]: dict[pygame.Rect] = pygame.Rect(rectangulo_principal.left, rectangulo_principal.top, 2, rectangulo_principal.height)
+    dicc_rectangulos_lados["lado_arriba"]: dict[pygame.Rect] = pygame.Rect(rectangulo_principal.left, rectangulo_principal.top, rectangulo_principal.width, 10)
+    return dicc_rectangulos_lados
+
+def obtener_ractangulo_principal(superficies, frame):
+    animaciones = []
+    animaciones = superficies
+    imagen = animaciones[frame]
+    rectangulo_principal = imagen.get_rect()
+    return rectangulo_principal 
