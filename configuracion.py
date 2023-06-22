@@ -1,14 +1,10 @@
 ANCHO = 1000
-ALTO = 800
+ALTO = 600
 
-FPS = 30
-
-
-
-VELOCIDAD_MOV = 5
+FPS = 60
 
 pos_init_x_personaje = 1
-pos_init_y_personaje = 500
+pos_init_y_personaje = 420
 speed_caminar_personaje = 5
 speed_correr_personaje = 8
 gravedad = 1
