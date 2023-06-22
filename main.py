@@ -13,7 +13,7 @@ relog = pygame.time.Clock()
 
 fondo = pygame.image.load("location\game_background_1.png")
 fondo = pygame.transform.scale(fondo, (ANCHO, ALTO))
-musica = pygame.mixer.music.load('sounds\intro_dbz.mp3')
+musica = pygame.mixer.music.load('sounds/raining-village-video-game-theme-141777.mp3')
 
 color_blue = (0,0,255)
 color_rojo = (255,0,0)
@@ -21,8 +21,14 @@ color_green = (0,255,0)
 jugador = Personaje(pos_init_x_personaje, pos_init_y_personaje,
                     speed_caminar_personaje, speed_correr_personaje, gravedad, potencia_salto)
 
-piso = Piso('sprites\StoneBlock.png',0,700)
+# piso = Piso('sprites\StoneBlock.png',0,700)
+pathPiso = 'sprites\StoneBlock.png'
 
+lista_pisos: list[Piso] = []
+
+for x in range(0, ANCHO, 100):
+    lista_pisos.append(Piso(pathPiso, x, 700))
+print(lista_pisos)
 pygame.mixer.music.play(-1)
 pygame.mixer.music.set_volume(0.5)
 while (True):
@@ -52,15 +58,15 @@ while (True):
         else:
             jugador.control("quieto")
 
-    jugador.update_personaje(piso)
-    jugador.draw_personaje(screen, piso)
+    jugador.update_personaje(lista_pisos)
+    jugador.draw_personaje(screen, lista_pisos)
 
     if get_modo():
         # pygame.draw.rect(screen, color_blue, piso.rectangulo_principal, 3)
-        pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_arriba"], 3)
-        pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_abajo"], 3)
-        pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_izquierda"], 3)
-        pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_derecha"], 3)     
+        # pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_arriba"], 3)
+        # pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_abajo"], 3)
+        # pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_izquierda"], 3)
+        # pygame.draw.rect(screen, color_rojo, piso.colisiones_rectangulo_princial["lado_derecha"], 3)     
 
         pygame.draw.rect(screen, color_rojo, jugador.colisiones_rectangulo_princial["lado_arriba"], 3)
         pygame.draw.rect(screen, color_rojo, jugador.colisiones_rectangulo_princial["lado_abajo"], 3)

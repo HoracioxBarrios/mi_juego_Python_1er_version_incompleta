@@ -44,44 +44,15 @@ class Personaje:
         self.colisiones_rectangulo_princial: dict[pygame.Rect] = obtener_rectangulos_colision(self.rectangulo_principal)
         print(self.colisiones_rectangulo_princial)
         
-    def update_personaje(self, piso: Piso):
-
-
-            # self.desplazamiento_y = 0
-            # self.en_aire = False
-            
-        if not self.en_aire and self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
-            self.rectangulo_principal.x += self.velocidad_x
-            for lado in self.colisiones_rectangulo_princial:
-                    self.colisiones_rectangulo_princial[lado].x += self.velocidad_x
-        else:
-            self.en_aire = True
-        # self.rectangulo_principal.y += self.desplazamiento_y
-
-
-        # self.gravedad()
-        #controla si el personaje esta en el aire o llego al piso   
-        # if self.rectangulo_principal.y < 650:
-        #     self.en_aire = True
-            # self.rectangulo_principal.y += self.desplazamiento_y
-
-            # if self.desplazamiento_y + self.gravedad < self.limite_velocidad_caida:
-            #     self.desplazamiento_y += self.gravedad
-            # self.controlar_animacion_en_aire()
-        # else:
-        #     print('cayo')
-        #     self.en_aire = False
-        #     self.desplazamiento_y = 0
-        #     self.controlar_animacion_an_piso()
-
-        # self.rectangulo_principal.y += self.desplazamiento_y
-
-        # for lado in self.colisiones_rectangulo_princial:
-        #     self.colisiones_rectangulo_princial[lado].y += self.desplazamiento_y
-            
-        # if self.desplazamiento_y + self.gravedad < self.limite_velocidad_caida:
-        #     self.desplazamiento_y += self.gravedad
-        self.aplicar_gravedad(piso)
+    def update_personaje(self, pisos: list[Piso]):
+        for piso in pisos:
+            if not self.en_aire and self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
+                self.rectangulo_principal.x += self.velocidad_x
+                for lado in self.colisiones_rectangulo_princial:
+                        self.colisiones_rectangulo_princial[lado].x += self.velocidad_x
+            else:
+                self.en_aire = True
+        self.aplicar_gravedad(pisos)
             
     def control(self, accion):
         #Caminar R
@@ -145,12 +116,12 @@ class Personaje:
         self.jugador_corriendo_izquierda = not self.jugador_corriendo_derecha
         self.jugador_quieto_izquierda = self.jugador_corriendo_izquierda
 
-    def draw_personaje(self, screen, piso: Piso):
+    def draw_personaje(self, screen, pisos:list[Piso]):
         
         self.animacion_controller()
-
         screen.blit(self.imagen, self.rectangulo_principal)
-        screen.blit(piso.imagen, piso.rectangulo_principal)
+        for piso in pisos:
+            screen.blit(piso.imagen, piso.rectangulo_principal)
    
     def animacion_controller(self):
         if(self.cont == 0):
@@ -168,7 +139,7 @@ class Personaje:
             print(self.cont)
             print(self.index)
             self.cont -= 1
-    def aplicar_gravedad(self, piso: Piso):
+    def aplicar_gravedad(self, pisos: list[Piso]):
         if self.en_aire:
             self.rectangulo_principal.y += self.desplazamiento_y
             for lado in self.colisiones_rectangulo_princial:
@@ -177,11 +148,13 @@ class Personaje:
 
             if self.desplazamiento_y + self.gravedad < self.limite_velocidad_caida:
                 self.desplazamiento_y += self.gravedad
+            self.chaquear_colision_pisos(pisos)
 
-        if self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
-            self.desplazamiento_y = 0
-            self.en_aire = False
-            self.colisiones_rectangulo_princial["lado_abajo"].y = piso.colisiones_rectangulo_princial["lado_arriba"].y
-        
+    def chaquear_colision_pisos(self, list_pisos: list[Piso]):
+        for piso in list_pisos:
+            if self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
+                self.desplazamiento_y = 0
+                self.en_aire = False
+                self.rectangulo_principal.bottom = piso.rectangulo_principal.top
 
 

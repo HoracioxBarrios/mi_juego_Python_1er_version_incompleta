@@ -1,5 +1,5 @@
-ANCHO = 900
-ALTO = 600
+ANCHO = 1000
+ALTO = 800
 
 FPS = 30
 
