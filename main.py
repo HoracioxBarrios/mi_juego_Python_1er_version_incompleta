@@ -4,8 +4,8 @@ from configuracion import *
 from level_1 import *
 from pyvidplayer import Video
 
-
 pygame.init()
+
 
 SCREEN = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Menu")
@@ -62,7 +62,7 @@ def options():
         pygame.display.update()
 
 def main_menu():
-    musica = pygame.mixer.music.load('sounds\intro_dbz.mp3')
+    pygame.mixer.music.load('sounds\intro_dbz.mp3')
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.5)
     while True:
@@ -102,13 +102,14 @@ def main_menu():
         pygame.display.update()
 
 def intro():
+    
     vid = Video("assets/video_corto.mp4")
     vid.set_size((ANCHO, ALTO))
     
     while True:
         #donde corre el video
         
-        if vid.active == True: # mientras sea verdadero 
+        if vid.active == True: # si es true cirre ek video
             vid.draw(SCREEN, (0, 0)) 
         else:
             vid.close()
@@ -122,7 +123,7 @@ def intro():
                 vid.close()
                 #llamada a main menu ()
                 main_menu()
-  
+
 
 
 intro()
