@@ -2,7 +2,7 @@ import pygame
 from utilidades import *
 from piso import *
 import time
-
+#pygame 2.4.0 (SDL 2.26.4, Python 3.11.2)
 class Personaje:
     def __init__(self, x, y, speed_caminar, speed_correr, gravedad, potencia_salto) -> None:
         self.caminar_r = get_surface_form_sprite_sheet("sprites\goku2.png", 9, 6, 0, 6, 8,False)
@@ -46,23 +46,34 @@ class Personaje:
         
     def update_personaje(self, pisos: list[Piso]):
         for piso in pisos:
-            if not self.en_aire and self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
-                self.rectangulo_principal.x += self.velocidad_x
-                for lado in self.colisiones_rectangulo_princial:
+            if not self.en_aire:
+                if self.colisiones_rectangulo_princial["lado_abajo"].colliderect(piso.colisiones_rectangulo_princial["lado_arriba"]):
+                    for lado in self.colisiones_rectangulo_princial:
                         self.colisiones_rectangulo_princial[lado].x += self.velocidad_x
+                
+                    # self.rectangulo_principal.x += self.velocidad_x
+                #cambie
             else:
-                self.en_aire = True
+                '''
+                agregue el rectangulo main al dicc asi tenemos los 5 rectangulos,(self.colisiones_rectangulo_princial)
+                recorro el dicc y a cada lado en su x le acumulo la velocidad x
+                '''
+                for lado in self.colisiones_rectangulo_princial:
+                    self.colisiones_rectangulo_princial[lado].x += self.velocidad_x
+                    self.en_aire = True
+        
+            
         self.aplicar_gravedad(pisos)
             
     def control(self, accion):
         #Caminar R
-        if accion == "caminar_r" and self.en_aire == False:
+        if accion == "caminar_r" :#and self.en_aire == False
             self.velocidad_x = self.speed_caminar
             self.animacion = self.caminar_r
             self.frame = 0
             self.setFlagsDarseVuelta(True)
         #Caminar L
-        elif accion == "caminar_l" and self.en_aire == False:
+        elif accion == "caminar_l" :#and self.en_aire == False
             self.velocidad_x = -self.speed_caminar
             self.animacion = self.caminar_l
             self.frame = 0
@@ -81,7 +92,7 @@ class Personaje:
             self.frame = 0
             
         #Saltar
-        elif accion == "saltar" and self.en_aire == False:
+        elif accion == "saltar" :#and self.en_aire == False
             self.en_aire = True
             if(self.jugador_quieto_derecha):
                 self.animacion = self.saltar_r
@@ -141,7 +152,7 @@ class Personaje:
             self.cont -= 1
     def aplicar_gravedad(self, pisos: list[Piso]):
         if self.en_aire:
-            self.rectangulo_principal.y += self.desplazamiento_y
+            # self.rectangulo_principal.y += self.desplazamiento_y
             for lado in self.colisiones_rectangulo_princial:
                 self.colisiones_rectangulo_princial[lado].y += self.desplazamiento_y
 
